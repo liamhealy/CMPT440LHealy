@@ -1,4 +1,4 @@
-# CMPT440LHealy
+# Grepy - CMPT440LHealy
 
 ## Formal Languages and Computability
 
