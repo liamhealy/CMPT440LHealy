@@ -9,23 +9,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
 </head>
-<body>
+<body></body>
     <nav class="navbar navbar-expand-lg navbar-light" style="color:whitesmoke; background-color:navy;">
         <h1>Grepy</h1>
     </nav>
     <div class="container" style="padding-left: 70px; padding-top: 20px; align-self: center;">
         <!-- Here is where we will be able to select files to work with temporarily -->
-        <h2>Select file:</h2>
-        <div class="container" style="display: flex; align-items: center; border-style: solid; border-radius: 5px; width: 400px; height: 60px; float: left;">
+        <h2>Select file from local directory:</h2>
+        <div class="container" style="display: flex; align-items: center; border-style: solid; border-radius: 5px; width: 450px; height: 60px; float: left;">
             <input type="file" id="upload" style="display: flex; color:silver;">
         </div>
     </div>
     <div class="container" style="padding-top: 50px; padding-left: 70px;">
         <br>
-        <label style="color:gray;">Input</label>
+        <label style="color:gray;">Input a Grepy call:</label>
+        <br>
+        <input type="text" id="call" style="color:white; background-color: black; width: 600px;" placeholder="grepy.Grep [-n NFA-FILENAME] [-d DFA-FILENAME] REGEX FILENAME">
+        <button class="btn btn-primary" id="callBtn" onclick="analyzeCall()">Go!</button>
+    </div>
+    <div class="container" style="padding-left: 70px;">
+        <br>
+        <label style="color:gray;">Output:</label>
         <br>
         <textarea type="text" id="shell" rows="20" cols="100" style="color:white; background-color: black;"></textarea>
     </div>
-    <script type="text/javascript" src="scripts/directory.js"></script>
+    <script type="text/javascript" src="scripts/grepy.js"></script>
+    <script type="text/javascript" src="scripts/utils.js"></script>
 </body>
 </html>
