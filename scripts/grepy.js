@@ -5,7 +5,7 @@ var grepySyntax = "grepy.Grep";
 
 function grabInput() {
     // Grab the "raw" source code.
-    var call = document.getElementById("call").value;
+    var call = document.getElementById("manualData").value;
     // Trim the leading and trailing spaces.
     call = trim(call);
     // TODO: remove all spaces in the middle; remove line breaks too.

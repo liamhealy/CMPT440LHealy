@@ -8,7 +8,7 @@ function getFile(event) {
     // fileReader.onload = 
     const uploadedFile = event.target;
     if ('files' in uploadedFile && uploadedFile.files.length > 0) {
-        insertContent(document.getElementById("shell"), uploadedFile.files[0])
+        insertContent(document.getElementById("manualData"), uploadedFile.files[0])
     }
 }
 
