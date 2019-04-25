@@ -1,5 +1,8 @@
 /* grepy.js */
 
+// A few global variables
+var grepySyntax = "grepy.Grep";
+
 function grabInput() {
     // Grab the "raw" source code.
     var call = document.getElementById("call").value;
@@ -12,8 +15,25 @@ function grabInput() {
 
 function analyzeCall() {
     // Sort of a lexical analysis of the actual call itself
+
+    // Clean up the shell before we analyze each call
+    // and return more output
+    document.getElementById("shell").value = "";
+
+    // Keep track of the token we're analyzing
+    var currentToken = 0;
+
+    // Grab the new call
     var newCall = grabInput();
 
-    grepyOutput("hi im liam");
+    // Check to see if the call includes 'grepy.Grep'
+    // var syntaxCheck = null;
+    // for (currentToken; currentToken <= grepySyntax.length; currentToken++) {
+    //     syntaxCheck += newCall.charAt(currentToken);
+    // }    
+
+    if (syntaxCheck != "grepy.Grep") {
+        grepyOutput("We have an issue...");
+    }
     // document.getElementById("shell").value = newCall;
 }
