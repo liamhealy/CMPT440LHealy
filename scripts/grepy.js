@@ -1,7 +1,9 @@
 /* grepy.js */
 
 // A few global variables
-var grepySyntax = "grepy.Grep";
+var regex = "";
+
+var newPattern = null;
 
 function grabInput() {
     // Grab the "raw" source code.
@@ -9,6 +11,10 @@ function grabInput() {
     // Trim the leading and trailing spaces.
     call = trim(call);
     // TODO: remove all spaces in the middle; remove line breaks too.
+    
+    regex = document.getElementById("regex").value;
+    newPattern = new RegExp(regex);
+
     return call;
     // document.getElementById("shell").value = call;
 }
@@ -26,14 +32,24 @@ function analyzeCall() {
     // Grab the new call
     var newCall = grabInput();
 
+    var result = newPattern.test(newCall);
+
+    grepyOutput(result);
+    // if (newCall == regex) {
+    //     grepyOutput(true);
+    // }
+    // else {
+    //     grepyOutput(false);
+    // }
+
     // Check to see if the call includes 'grepy.Grep'
     // var syntaxCheck = null;
     // for (currentToken; currentToken <= grepySyntax.length; currentToken++) {
     //     syntaxCheck += newCall.charAt(currentToken);
     // }    
 
-    if (syntaxCheck != "grepy.Grep") {
-        grepyOutput("We have an issue...");
-    }
+    // if (syntaxCheck != "grepy.Grep") {
+    //     grepyOutput("We have an issue...");
+    // }
     // document.getElementById("shell").value = newCall;
 }
