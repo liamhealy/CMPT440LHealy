@@ -1,4 +1,4 @@
-/* grepy.js */
+/* lexer.js */
 
 // A few global variables
 var regex = "";
