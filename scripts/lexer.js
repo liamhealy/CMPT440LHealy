@@ -12,6 +12,7 @@ function grabInput() {
     call = trim(call);
     // TODO: remove all spaces in the middle; remove line breaks too.
     
+    tokenSequence = [];
     regex = document.getElementById("regex").value;
     newPattern = new RegExp(regex);
 
