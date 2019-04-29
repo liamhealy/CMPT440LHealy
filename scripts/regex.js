@@ -27,12 +27,12 @@ function analyzeCall() {
     regex = document.getElementById("regex").value;
     try {
         newPattern = new RegExp(regex);
+        storeRegex(regex);
     }
     catch (err) {
         grepyOutput("Invalid regular expression entered.");
     }
     // Keep track of the token we're analyzing
-    var index = 0;
 
     // Grab the new call
     var newCall = grabInput();
@@ -67,4 +67,20 @@ function analyzeCall() {
     //     grepyOutput("We have an issue...");
     // }
     // document.getElementById("shell").value = newCall;
+}
+
+function storeRegex(tempRegex) {
+    // Set the current index to 0
+    var index = 0;
+
+    for (index; index < tempRegex.length; index++) {
+
+        var currentToken = tempRegex[index];
+        addToken(currentToken);
+        console.log(tokenSequence);
+        // add this token to the sequence
+        grepyOutput("Found [" + currentToken + "]\n");
+        
+    
+    }
 }

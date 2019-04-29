@@ -7,15 +7,14 @@
 var tokenSequence = [];
 
 // This function allows us to create usable tokens
-function token (type, value) {
-    this.type = type;
+function token (value) {
     this.value = value;
 }
 
 // We can add our token to the toke sequence
-function addToken (tokenId, value) {
+function addToken (value) {
     // Create a token to enter into the token sequence
-    var newToken = new token(tokenId, value);
+    var newToken = new token(value);
     // Add our new token
     tokenSequence.push(newToken);
 }
