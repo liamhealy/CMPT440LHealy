@@ -11,11 +11,6 @@ function grabInput() {
     // Trim the leading and trailing spaces.
     call = trim(call);
     // TODO: remove all spaces in the middle; remove line breaks too.
-    
-    tokenSequence = [];
-    regex = document.getElementById("regex").value;
-    newPattern = new RegExp(regex);
-
     return call;
     // document.getElementById("shell").value = call;
 }
@@ -27,15 +22,34 @@ function analyzeCall() {
     // and return more output
     document.getElementById("shell").value = "";
 
+    // Set some of our needed variables
+    tokenSequence = [];
+    regex = document.getElementById("regex").value;
+    try {
+        newPattern = new RegExp(regex);
+    }
+    catch (err) {
+        grepyOutput("Invalid regular expression entered.");
+    }
     // Keep track of the token we're analyzing
-    var currentToken = 0;
+    var index = 0;
 
     // Grab the new call
     var newCall = grabInput();
 
-    var result = newPattern.test(newCall);
+    // for (index; index < regex.length; index++) {
 
-    grepyOutput(result);
+    //     var currentToken = regex[index];
+
+    //     if (currentToken == "") {
+    //         // add this token to the sequence
+    //         grepyOutput("Found a " + currentToken);
+    //     }
+    //     // if (index >= 1) {
+    //     //     currentToken = getNextToken(currentToken);
+    //     // }
+    
+    // }
     // if (newCall == regex) {
     //     grepyOutput(true);
     // }
