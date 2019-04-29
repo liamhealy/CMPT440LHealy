@@ -5,6 +5,8 @@ var regex = "";
 
 var newPattern = null;
 
+var input = null;
+
 function grabInput() {
     // Grab the "raw" source code.
     var call = document.getElementById("manualData").value;
@@ -27,6 +29,7 @@ function analyzeCall() {
     regex = document.getElementById("regex").value;
     try {
         newPattern = new RegExp(regex);
+        console.log(newPattern);
         storeRegex(regex);
     }
     catch (err) {
@@ -35,7 +38,7 @@ function analyzeCall() {
     // Keep track of the token we're analyzing
 
     // Grab the new call
-    var newCall = grabInput();
+    input = grabInput();
 
     // for (index; index < regex.length; index++) {
 
