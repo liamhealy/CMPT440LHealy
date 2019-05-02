@@ -2,8 +2,8 @@
 
 function nfa() {
     /* 
-    *  This is the constructor function for an NFA.
-    *  The regular expression we take from regex.js
+    *  This is the constructor function for an NFA, which
+    *  forms a 5-tuple. The regular expression we take from regex.js
     *  will be used to create an NFA, and the alphabet
     *  we learn from the input file will be used as the alphabet.
     *  ---------------------
@@ -14,9 +14,27 @@ function nfa() {
     */
 
 
-    this.states = null;
+    this.states = [];
+    this.currentState = {};
     this.alphabet = null;
     this.delta = null;
     this.startState = null;
     this.acceptState = null;
+
+    // Add a state
+    this.addState = function (id, accepts, isStartState, isAcceptState) {
+        // The state object
+        var state = {
+            id: null,
+            accepts: [],
+            isStartState: false,
+            isAcceptState: false
+        };
+    
+        // Set it to be the start state if needed
+        if (this.startState == null) {
+            this.startState = state;
+            state.isStartState = true;
+        }
+    }
 }

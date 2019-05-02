@@ -26,50 +26,34 @@ function analyzeCall() {
 
     // Set some of our needed variables
     tokenSequence = [];
+
     regex = document.getElementById("regex").value;
+
+    // Make sure we have valid regex entered
     try {
         newPattern = new RegExp(regex);
-        console.log(newPattern);
+        // console.log(newPattern.test(document.getElementById("manualData")));
         storeRegex(regex);
+        /*
+        *   TODO: Create an NFA based on the regular expression
+        */
+
+        // Begin to analyze the input
+        testInput();
     }
     catch (err) {
         grepyOutput("Invalid regular expression entered.");
     }
-    // Keep track of the token we're analyzing
 
-    // Grab the new call
+}
+
+function testInput() {
+    // Grab the input data
     input = grabInput();
+    /*
+    *   TODO: Test the input data against the NFA
+    */
 
-    // for (index; index < regex.length; index++) {
-
-    //     var currentToken = regex[index];
-
-    //     if (currentToken == "") {
-    //         // add this token to the sequence
-    //         grepyOutput("Found a " + currentToken);
-    //     }
-    //     // if (index >= 1) {
-    //     //     currentToken = getNextToken(currentToken);
-    //     // }
-    
-    // }
-    // if (newCall == regex) {
-    //     grepyOutput(true);
-    // }
-    // else {
-    //     grepyOutput(false);
-    // }
-
-    // Check to see if the call includes 'grepy.Grep'
-    // var syntaxCheck = null;
-    // for (currentToken; currentToken <= grepySyntax.length; currentToken++) {
-    //     syntaxCheck += newCall.charAt(currentToken);
-    // }    
-
-    // if (syntaxCheck != "grepy.Grep") {
-    //     grepyOutput("We have an issue...");
-    // }
-    // document.getElementById("shell").value = newCall;
 }
 
 function storeRegex(tempRegex) {
@@ -83,7 +67,5 @@ function storeRegex(tempRegex) {
         console.log(tokenSequence);
         // add this token to the sequence
         grepyOutput("Found [" + currentToken + "]\n");
-        
-    
     }
 }
