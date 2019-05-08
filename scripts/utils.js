@@ -54,5 +54,5 @@ function trim(str) {
 }
 
 function grepyOutput(msg) {
-    document.getElementById("shell").value += msg;
+    document.getElementById("shell").value += msg + "\n";
 }

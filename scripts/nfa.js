@@ -1,6 +1,6 @@
 /* nfa.js */
 
-function nfa() {
+function Nfa() {
     /* 
     *  This is the constructor function for an NFA, which
     *  forms a 5-tuple. The regular expression we take from regex.js
@@ -34,7 +34,15 @@ function nfa() {
         // Set it to be the start state if needed
         if (this.startState == null) {
             this.startState = state;
+            this.cur = state;
             state.isStartState = true;
         }
+        else {
+            this.cur = state;
+        }
+    }
+
+    this.delta = function() {
+        // Need to finish analyzeInput() before continuing
     }
 }
