@@ -30,7 +30,7 @@ function Nfa() {
             isStartState: false,
             isAcceptState: false
         };
-    
+
         // Set it to be the start state if needed
         if (this.startState == null) {
             this.startState = state;

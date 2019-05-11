@@ -7,6 +7,8 @@ var newPattern = null;
 
 var input = null;
 
+var regexNfa = new Nfa();
+
 function grabInput() {
     // Grab the "raw" source code.
     var newData = document.getElementById("manualData").value;
@@ -53,6 +55,8 @@ function analyzeCall() {
         }
     }
 
+    createNfa(regex);
+
 }
 
 function lexInput() {
@@ -90,6 +94,20 @@ function lexInput() {
 
 }
 
+function createNfa(tempRegex) {
+    
+    var index = 0;
+    var inParens = false;
+
+    while (index < tempRegex.length) {
+        index = index + 1;
+        if (tempRegex[index] == "(" && inParens == false) {
+            inParens = true;
+        }
+
+    }
+}
+
 function storeRegex(tempRegex) {
     // Set the current index to 0
     var index = 0;
@@ -103,5 +121,4 @@ function storeRegex(tempRegex) {
         grepyOutput("Found [" + currentToken + "]\n");
     }
     // Initialize a new NFA for this regex
-    var regexN = new Nfa();
 }
