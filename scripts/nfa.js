@@ -40,6 +40,8 @@ function Nfa() {
         else {
             this.cur = state;
         }
+        // Finally, add the state to the NFA
+        this.states.push(state);
     }
 
     this.delta = function() {

@@ -94,17 +94,64 @@ function lexInput() {
 
 }
 
-function createNfa(tempRegex) {
+function createNfa(tempRegex, tempNfa) {
     
     var index = 0;
     var inParens = false;
+    var stateId = "0";
+    var accepts = null;
+    var string = null;
 
     while (index < tempRegex.length) {
         index = index + 1;
-        if (tempRegex[index] == "(" && inParens == false) {
-            inParens = true;
+        if (tempRegex[index] == "(") {
+            if (inParens == false) {
+                inParens = true;
+            }
+            continue;
         }
-
+        else if ('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.includes(tempRegex[index])) {
+            string = tempRegex[index];
+            if (tempRegex[index + 1] == "*") {
+                tempNfa.addState("q" + stateId, [string, "", " "], false, false);
+                stateId++;
+                index = index + 1;
+                continue;
+            }
+            else {
+                tempNfa.addState("q" + stateId, [string], false, false);
+                stateId++;
+                continue;
+            }
+        }
+        else if ('abcdefghijklmnopqrstuvwxyz'.includes(tempRegex[index])) {
+            string = tempRegex[index];
+            if (tempRegex[index + 1] == "*") {
+                tempNfa.addState("q" + stateId, [string, "", " "], false, false);
+                stateId++;
+                index = index + 1;
+                continue;
+            }
+            else {
+                tempNfa.addState("q" + stateId, [string], false, false);
+                stateId++;
+                continue;
+            }
+        }
+        else if ('0123456789'.includes(tempRegex[index + 1])) {
+            string = tempRegex[index];
+            if (tempRegex[index + 1] == "*") {
+                tempNfa.addState("q" + stateId, [string, "", " "], false, false);
+                stateId++;
+                index = index + 1;
+                continue;
+            }
+            else {
+                tempNfa.addState("q" + stateId, [string], false, false);
+                stateId++;
+                continue;
+            }
+        }
     }
 }
 
