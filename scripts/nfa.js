@@ -25,10 +25,10 @@ function Nfa() {
     this.addState = function (id, accepts, isStartState, isAcceptState) {
         // The state object
         var state = {
-            id: null,
-            accepts: [],
-            isStartState: false,
-            isAcceptState: false
+            id: id,
+            accepts: accepts,
+            isStartState: isStartState,
+            isAcceptState: isAcceptState
         };
 
         // Set it to be the start state if needed
@@ -42,9 +42,19 @@ function Nfa() {
         }
         // Finally, add the state to the NFA
         this.states.push(state);
-    }
+    };
 
-    this.delta = function() {
+    this.delta = function () {
         // Need to finish analyzeInput() before continuing
-    }
+    };
+
+    this.toString = function () {
+        var tempState;
+        var diagram = "";
+        for (var i = 0; i < this.states.length; i++) {
+            tempState = this.states[i];
+            diagram += "-->" + tempState.id + " [" + tempState.accepts.toString() + "]";
+        }
+        return diagram;
+    };
 }
