@@ -44,8 +44,61 @@ function Nfa() {
         this.states.push(state);
     };
 
-    this.delta = function () {
+    this.delta = function (randomString) {
         // Need to finish analyzeInput() before continuing
+        var tempState;
+        var tempChar;
+        var isAccepted = false;
+        var acceptIndex = 0;
+        var tokenIndex = 0;
+        console.log(this.states);
+        for (var i = 0; i < this.states.length; i++) {
+            tempState = this.states[i];
+            console.log(tempState);
+            tempChar = randomString[tokenIndex];
+            console.log(tempChar);
+            if (tempState.accepts[acceptIndex] == tempChar) {
+                if (tempState.isAcceptState == true) {
+                    return true;
+                }
+                else {
+                    acceptIndex++;
+                    tokenIndex++;
+                }
+            }
+            else {
+                // i = 0;
+                acceptIndex = 0;
+                tokenIndex++;
+            }
+        }
+        return false;
+        
+        // Outer loop to shift between states
+        // for (var i = 0; i < this.states.length; i++) {
+        //     tempState = this.states[i];
+        //     // Inner loop to shift through and compare acceptable values
+        //     for (var j = 0; j < tempState.accepts.length; j++) {
+        //         tempChar = randomString[index];
+        //         if (tempChar == tempState.accepts[j]) {
+        //             if (tempState.isAcceptState == true) {
+        //                 isAccepted = true;
+        //                 break;
+        //             }
+        //             else {
+        //                 index++;
+        //             }
+        //         }
+        //         else {
+        //             index++;
+        //             console.log(index);
+        //         }
+        //     }
+        //     if (isAccepted == true) {
+        //         return true;
+        //     }
+        // }
+        // return false;
     };
 
     this.toString = function () {
@@ -53,7 +106,7 @@ function Nfa() {
         var diagram = "";
         for (var i = 0; i < this.states.length; i++) {
             tempState = this.states[i];
-            diagram += "-->" + tempState.id + " [" + tempState.accepts.toString() + "]";
+            diagram += "-->" + tempState.id + " [" + tempState.accepts.toString() + ", " + tempState.isStartState + ", " + tempState.isAcceptState + "]";
         }
         return diagram;
     };

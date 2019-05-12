@@ -44,6 +44,8 @@ function analyzeCall() {
         grepyOutput("Invalid regular expression entered.");
     }
 
+    // Test input using the javascript Regex library
+    // (this is only here temporarily)
     var testInput = false;
     var testData = null;
     for (var i = 0; i < tokenSequence.length; i++) {
@@ -55,9 +57,22 @@ function analyzeCall() {
         }
     }
 
+    // Create the NFA (show it temporarily)
     createNfa(regex, regexNfa);
     grepyOutput(regexNfa.toString());
 
+    // Test the input on the NFA
+    for (var i = 0; i < tokenSequence.length; i++) {
+        testData = tokenSequence[i];
+        testInput = regexNfa.delta(testData)
+        grepyOutput(testInput);
+    }
+
+    var regexDfa = new Nfa();
+
+
+    // Reset values that will be reused
+    resetGlobals();
 }
 
 function lexInput() {
@@ -112,15 +127,25 @@ function createNfa(tempRegex, tempNfa) {
         else if ('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.includes(tempRegex[index])) {
             string = tempRegex[index];
             if (tempRegex[index + 1] == "*") {
-                accepted = [string, "", " "];
-                tempNfa.addState("q" + stateId, accepted, false, false);
+                accepted = [string, /^\s*$/g];
+                if (index == tempRegex.length - 1) {
+                    tempNfa.addState("q" + stateId, accepted, false, true);
+                }
+                else {
+                    tempNfa.addState("q" + stateId, accepted, false, false);
+                }
                 stateId++;
                 // index = index + 1;
                 continue;
             }
             else {
                 accepted = [string];
-                tempNfa.addState("q" + stateId, accepted, false, false);
+                if (index == tempRegex.length - 1) {
+                    tempNfa.addState("q" + stateId, accepted, false, true);
+                }
+                else {
+                    tempNfa.addState("q" + stateId, accepted, false, false);
+                }
                 stateId++;
                 continue;
             }
@@ -128,35 +153,61 @@ function createNfa(tempRegex, tempNfa) {
         else if ('abcdefghijklmnopqrstuvwxyz'.includes(tempRegex[index])) {
             string = tempRegex[index];
             if (tempRegex[index + 1] == "*") {
-                accepted = [string, "", " "];
-                tempNfa.addState("q" + stateId, accepted, false, false);
+                accepted = [string, /^\s*$/g];
+                if (index == tempRegex.length - 1) {
+                    tempNfa.addState("q" + stateId, accepted, false, true);
+                }
+                else {
+                    tempNfa.addState("q" + stateId, accepted, false, false);
+                }
                 stateId++;
                 // index = index + 1;
                 continue;
             }
             else {
                 accepted = [string];
-                tempNfa.addState("q" + stateId, accepted, false, false);
+                if (index == tempRegex.length - 1) {
+                    tempNfa.addState("q" + stateId, accepted, false, true);
+                }
+                else {
+                    tempNfa.addState("q" + stateId, accepted, false, false);
+                }
                 stateId++;
                 continue;
             }
         }
-        else if ('0123456789'.includes(tempRegex[index + 1])) {
+        else if ('0123456789'.includes(tempRegex[index])) {
             string = tempRegex[index];
             if (tempRegex[index + 1] == "*") {
-                accepted = [string, "", " "];
-                tempNfa.addState("q" + stateId, accepted, false, false);
+                accepted = [string, /^\s*$/g];
+                if (index == tempRegex.length - 1) {
+                    tempNfa.addState("q" + stateId, accepted, false, true);
+                }
+                else {
+                    tempNfa.addState("q" + stateId, accepted, false, false);
+                }
                 stateId++;
                 // index = index + 1;
                 continue;
             }
             else {
                 accepted = [string];
-                tempNfa.addState("q" + stateId, accepted, false, false);
+                if (index == tempRegex.length - 1) {
+                    tempNfa.addState("q" + stateId, accepted, false, true);
+                }
+                else {
+                    tempNfa.addState("q" + stateId, accepted, false, false);
+                }
                 stateId++;
                 continue;
             }
         }
+    }
+}
+
+function convertNfa(tempNfa) {
+    for (var i = 0; i < tempNfa.states.length; i++) {
+        
     }
 }
 
@@ -173,4 +224,14 @@ function storeRegex(tempRegex) {
         grepyOutput("Found [" + currentToken + "]\n");
     }
     // Initialize a new NFA for this regex
+}
+
+function resetGlobals() {
+    regex = "";
+
+    newPattern = null;
+
+    input = null;
+
+    regexNfa = new Nfa();
 }
