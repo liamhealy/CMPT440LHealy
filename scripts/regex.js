@@ -58,29 +58,38 @@ function analyzeCall() {
     // }
 
     // Create the NFA (show it temporarily)
+    grepyOutput("The following lines of input match the entered regex.\nNFA:");
     createNfa(regex, regexNfa);
     grepyOutput(regexNfa.toString());
-
+    
     // Test the input on the NFA
-    for (var i = 0; i < tokenSequence.length; i++) {
-        testData = tokenSequence[i];
-        console.log(testData.value);
-        testInput = newPattern.test(testData.value);
-        grepyOutput("Line " + i + "\n" + testInput);
-        if (testInput == true) {
-            grepyOutput(testData.value);
-        }
-        
-        testInput = regexNfa.delta(testData.value);
-        grepyOutput(testInput);
-        grepyOutput(">");
-    }
+    // for (var i = 0; i < tokenSequence.length; i++) {
+    //     testData = tokenSequence[i];
+    //     console.log(testData.value);
+    //     testInput = regexNfa.delta(testData.value);
+    //     // grepyOutput("Line " + i + "\n" + testInput);
+    //     if (testInput == true) {
+    //         grepyOutput(testData.value);
+    //     }
+    //     grepyOutput(">");
+    // }
 
     // Using the same constructor we did for NFA's,
     // because every NFA can be translated to an 
-    // equivalent DFA using subset contruction
+    // equivalent DFA using subset contruction,
+    // convert it to a DFA
+    grepyOutput("DFA:");
     var regexDfa = subsetConstruction(regexNfa);
+    grepyOutput(regexDfa.toString());
     console.log(regexDfa);
+
+    for (var i = 0; i < tokenSequence.length; i++) {
+        testData = tokenSequence[i];
+        testInput = regexDfa.delta(testData.value);
+        if (testInput == true) {
+            grepyOutput(testData.value);
+        }
+    }
 
 
     // Reset values that will be reused
@@ -147,30 +156,31 @@ function createNfa(tempRegex, tempNfa) {
             index = col;
             continue;
         }
+        else if ('abcdefghijklmnopqrstuvwxyz'.includes(tempRegex[index]) && tempRegex[index + 1] == "*") {
+            tempNfa.addState("q" + stateId, [tempRegex[index], /^\s*$/g], false, false);
+        }
         else if ('abcdefghijklmnopqrstuvwxyz'.includes(tempRegex[index])) {
-            if (tempRegex[index + 1] == "*") {
-                // We'll need to work on this in a bit
-            }
-            else if (tempRegex[index + 1] == "|" || tempRegex[index + 1] == "+") {
+            if (tempRegex[index + 1] == "|" || tempRegex[index + 1] == "+") {
                 // We'll need to work on this in a bit
             }
             else if ('abcdefghijklmnopqrstuvwxyz'.includes(tempRegex[index + 1])) {
-                tempNfa.addState("q" + stateId, [], false, false);
-                stateId++;
+                // tempNfa.addState("q" + stateId, [], false, false);
+                // stateId++;
                 tempNfa.addState("q" + stateId, [tempRegex[index]], false, false); 
                 stateId++;
                 if (index + 2 == tempRegex.length) {
                     tempNfa.addState("q" + stateId, [tempRegex[index + 1]], false, true);
+                    col = col + 2;
                 }
                 else {
                     tempNfa.addState("q" + stateId, [tempRegex[index + 1]], false, false);
+                    col = col + 1;
                 }
-                col = col + 2;
                 stateId++;
             }
             else {
-                tempNfa.addState("q" + stateId, [], false, false);
-                stateId++;
+                // tempNfa.addState("q" + stateId, [], false, false);
+                // stateId++;
                 if (index + 1 == tempRegex.length) {
                     tempNfa.addState("q" + stateId, [tempRegex[index]], false, true);
                 }
@@ -268,12 +278,33 @@ function subsetConstruction(tempNfa) {
     var stateCounter = 0;
 
     for (var i = 0; i < tempNfa.states.length; i++) {
+        if (tempNfa.states.length == 0) {
+            continue;
+        }
+        // if (tempNfa.states[i].accepts[i] == /^\s*$/g) {
+        //     continue;
+        // }
         for (var j = 0; j < tempNfa.states[i].accepts.length; j++) {
             if (stateCounter == 0) {
-                newDfa.addState("q" + stateCounter, [tempNfa.states[i].accepts[j]], true, false);                    
+                if (i + 1 == tempNfa.states.length && j + 1 == tempNfa.states[i].accepts.length) {
+                    newDfa.addState("q" + stateCounter, [tempNfa.states[i].accepts[j]], true, true);                    
+                }
+                else {
+                    newDfa.addState("q" + stateCounter, [tempNfa.states[i].accepts[j]], true, false);                                        
+                }
+                stateCounter++;
+            }
+            else if (i + 1 == tempNfa.states.length && j + 1 == tempNfa.states[i].accepts.length) {
+                newDfa.addState("q" + stateCounter, [tempNfa.states[i].accepts[j]], false, true);                    
+                stateCounter++;
+            }
+            else if (i + 1 == tempNfa.states.length && j + 1 == tempNfa.states[i].accepts.length && '/^\s*$/g'.includes(tempNfa.states[i].accepts[j])) {
+                newDfa.addState("q" + stateCounter, [tempNfa.states[i].accepts[j]], false, true);                    
+                stateCounter++;
             }
             else {
                 newDfa.addState("q" + stateCounter, [tempNfa.states[i].accepts[j]], false, false);                    
+                stateCounter++;
             }
         }
     }

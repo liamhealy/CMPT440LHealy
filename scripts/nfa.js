@@ -47,7 +47,7 @@ function Nfa() {
     this.delta = function (randomString) {
         // Need to finish analyzeInput() before continuing
 
-        var tempState = 1;
+        var tempState = 0;
         var stateLength = 0;
         var tempChar = randomString;
         var isAccepted = false;
