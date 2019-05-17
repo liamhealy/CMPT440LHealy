@@ -15,7 +15,7 @@ function Nfa() {
 
 
     this.states = [];
-    this.currentState = {};
+    // this.currentState = {};
     this.alphabet = null;
     this.delta = null;
     this.startState = null;
@@ -46,59 +46,76 @@ function Nfa() {
 
     this.delta = function (randomString) {
         // Need to finish analyzeInput() before continuing
-        var tempState;
-        var tempChar;
+
+        var tempState = 1;
+        var stateLength = 0;
+        var tempChar = randomString;
         var isAccepted = false;
         var acceptIndex = 0;
         var tokenIndex = 0;
         console.log(this.states);
-        for (var i = 0; i < this.states.length; i++) {
-            tempState = this.states[i];
-            console.log(tempState);
-            tempChar = randomString[tokenIndex];
-            console.log(tempChar);
-            if (tempState.accepts[acceptIndex] == tempChar) {
-                if (tempState.isAcceptState == true) {
+        console.log(randomString.length);
+
+
+        for (var i = 0; i < randomString.length; i++) {
+            console.log(this.states[acceptIndex].accepts.length);
+            console.log(randomString[tokenIndex]);
+            stateLength = this.states[acceptIndex].accepts.length;
+            if (randomString[tokenIndex] == this.states[tempState].accepts[acceptIndex]) {
+                if (this.states[tempState].isAcceptState == true) {
                     return true;
                 }
                 else {
-                    acceptIndex++;
+                    tempState++;
                     tokenIndex++;
+                    acceptIndex = 0;
+                    continue;
+                }
+            }
+            else if (stateLength == 0) {
+                if (this.states[tempState].isAcceptState == true) {
+                    return true;
+                }
+                else {
+                    tempState++;
+                    acceptIndex = 0;
+                    continue;
                 }
             }
             else {
-                // i = 0;
-                acceptIndex = 0;
-                tokenIndex++;
+                // tokenIndex++;
+                return false;
             }
         }
         return false;
-        
-        // Outer loop to shift between states
-        // for (var i = 0; i < this.states.length; i++) {
-        //     tempState = this.states[i];
-        //     // Inner loop to shift through and compare acceptable values
-        //     for (var j = 0; j < tempState.accepts.length; j++) {
-        //         tempChar = randomString[index];
-        //         if (tempChar == tempState.accepts[j]) {
-        //             if (tempState.isAcceptState == true) {
-        //                 isAccepted = true;
-        //                 break;
-        //             }
-        //             else {
-        //                 index++;
-        //             }
-        //         }
-        //         else {
-        //             index++;
-        //             console.log(index);
-        //         }
-        //     }
-        //     if (isAccepted == true) {
-        //         return true;
-        //     }
+    };
+
+    this.transition = function (token) {
+
+        // var tokenIndex = 0;
+
+        // function delta () {
+            var currentState = 0;
+            var tempState = this.states[currentState];
+            var tempChar = token[0];
+
+            for (var i = 0; i < token.length; i++) {
+                if (token[i] == tempState.accepts[i]) {
+                    currentState++;
+                    if (tempState.isAcceptState == true && i == token.length) {
+                        return true;
+                    }
+                }
+                else {
+                    currentState = 0;
+                }
+            }
+            console.log(tempState.accepts[i]);
+            console.log(tempChar);
+            return false;
         // }
-        // return false;
+
+        // delta(token);
     };
 
     this.toString = function () {
