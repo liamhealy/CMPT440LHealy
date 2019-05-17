@@ -79,7 +79,8 @@ function analyzeCall() {
     // Using the same constructor we did for NFA's,
     // because every NFA can be translated to an 
     // equivalent DFA using subset contruction
-    var regexDfa = new Nfa();
+    var regexDfa = subsetConstruction(regexNfa);
+    console.log(regexDfa);
 
 
     // Reset values that will be reused
@@ -255,153 +256,28 @@ function createNfa(tempRegex, tempNfa) {
             continue;
         }
     }
-
-    // if (tempRegex == "{}*") {
-    //     if (startState == false) {
-    //         startState = true;
-    //         tempNfa.addState("q" + stateId, [], startState, false);
-    //         stateId++;
-    //         tempNfa.addState("q" + stateId, [/^\s*$/g], false, true);   
-    //     }
-    // }
-    // else if (tempRegex.length < 1) {
-    //     if (startState == false) {
-    //         startState = true;
-    //         tempNfa.addState("q" + stateId, [], startState, false);
-    //         stateId++;
-    //         tempNfa.addState("q" + stateId, [tempRegex], false, true);   
-    //     }
-    // }
-
-
-    // var inParens = false;
-    // var stateId = 0;
-    // var accepted = null;
-    // var string = null;
-
-    // for (var index = 0; index < tempRegex.length; index++) {
-    //     if (tempRegex[index] == "(") {
-    //         if (inParens == false) {
-    //             inParens = true;
-    //         }
-    //         continue;
-    //     }
-    //     else if ('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.includes(tempRegex[index])) {
-    //         string = tempRegex[index];
-    //         if (tempRegex[index + 1] == "*") {
-    //             accepted = [string, /^\s*$/g];
-    //             if (index == tempRegex.length - 1) {
-    //                 tempNfa.addState("q" + stateId, accepted, false, true);
-    //             }
-    //             else {
-    //                 tempNfa.addState("q" + stateId, accepted, false, false);
-    //             }
-    //             stateId++;
-    //             // index = index + 1;
-    //             continue;
-    //         }
-    //         else {
-    //             accepted = [string];
-    //             if (index == tempRegex.length - 1) {
-    //                 tempNfa.addState("q" + stateId, accepted, false, true);
-    //             }
-    //             else {
-    //                 tempNfa.addState("q" + stateId, accepted, false, false);
-    //             }
-    //             stateId++;
-    //             continue;
-    //         }
-    //     }
-    //     else if ('abcdefghijklmnopqrstuvwxyz'.includes(tempRegex[index])) {
-    //         string = tempRegex[index];
-    //         if (tempRegex[index + 1] == "*") {
-    //             accepted = [string, /^\s*$/g];
-    //             if (index == tempRegex.length - 1) {
-    //                 tempNfa.addState("q" + stateId, accepted, false, true);
-    //             }
-    //             else {
-    //                 tempNfa.addState("q" + stateId, accepted, false, false);
-    //             }
-    //             stateId++;
-    //             // index = index + 1;
-    //             continue;
-    //         }
-    //         else {
-    //             accepted = [string];
-    //             if (index == tempRegex.length - 1) {
-    //                 tempNfa.addState("q" + stateId, accepted, false, true);
-    //             }
-    //             else {
-    //                 tempNfa.addState("q" + stateId, accepted, false, false);
-    //             }
-    //             stateId++;
-    //             continue;
-    //         }
-    //     }
-    //     else if ('0123456789'.includes(tempRegex[index])) {
-    //         string = tempRegex[index];
-    //         if (tempRegex[index + 1] == "*") {
-    //             accepted = [string, /^\s*$/g];
-    //             if (index == tempRegex.length - 1) {
-    //                 tempNfa.addState("q" + stateId, accepted, false, true);
-    //             }
-    //             else {
-    //                 tempNfa.addState("q" + stateId, accepted, false, false);
-    //             }
-    //             stateId++;
-    //             // index = index + 1;
-    //             continue;
-    //         }
-    //         else {
-    //             accepted = [string];
-    //             if (index == tempRegex.length - 1) {
-    //                 tempNfa.addState("q" + stateId, accepted, false, true);
-    //             }
-    //             else {
-    //                 tempNfa.addState("q" + stateId, accepted, false, false);
-    //             }
-    //             stateId++;
-    //             continue;
-    //         }
-    //     }
-    // }
 }
         
-
-    //     // Outer loop to shift between states
-    //     for (var i = 0; i < this.states.length; i++) {
-    //         tempState = this.states[i];
-    //         // Inner loop to shift through and compare acceptable values
-    //         for (var j = 0; j < tempState.accepts.length; j++) {
-    //             tempChar = randomString[index];
-    //             if (tempChar == tempState.accepts[j]) {
-    //                 if (tempState.isAcceptState == true) {
-    //                     isAccepted = true;
-    //                     break;
-    //                 }
-    //                 else {
-    //                     index++;
-    //                 }
-    //             }
-    //             else {
-    //                 index++;
-    //                 console.log(index);
-    //             }
-    //         }
-    //         if (isAccepted == true) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
 
 // Convert the NFA to a DFA
 // We may need to combine several states,
 // so I need to figure out how to do that
 function subsetConstruction(tempNfa) {
+    
+    var newDfa = new Nfa();
+    var stateCounter = 0;
+
     for (var i = 0; i < tempNfa.states.length; i++) {
-        
+        for (var j = 0; j < tempNfa.states[i].accepts.length; j++) {
+            if (stateCounter == 0) {
+                newDfa.addState("q" + stateCounter, [tempNfa.states[i].accepts[j]], true, false);                    
+            }
+            else {
+                newDfa.addState("q" + stateCounter, [tempNfa.states[i].accepts[j]], false, false);                    
+            }
+        }
     }
+    return newDfa;
 }
 
 function storeRegex(tempRegex) {

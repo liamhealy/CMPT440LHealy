@@ -72,16 +72,16 @@ function Nfa() {
                     continue;
                 }
             }
-            else if (stateLength == 0) {
-                if (this.states[tempState].isAcceptState == true) {
-                    return true;
-                }
-                else {
-                    tempState++;
-                    acceptIndex = 0;
-                    continue;
-                }
-            }
+            // else if (stateLength == 0) {
+            //     if (this.states[tempState].isAcceptState == true) {
+            //         return true;
+            //     }
+            //     else {
+            //         tempState++;
+            //         acceptIndex = 0;
+            //         continue;
+            //     }
+            // }
             else {
                 // tokenIndex++;
                 return false;
