@@ -1,0 +1,54 @@
+<!-- Formal Languages and Computability
+     Marist College
+     Professor Gildein-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Grepy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+</head>
+<body style="background-color: lightslategrey;"></body>
+    <nav class="navbar navbar-expand-lg navbar-light" style="color:whitesmoke; background-color:navy;">
+        <h1>Grepy</h1>
+    </nav>
+    <div class="container" style="padding-left: 50px; padding-top: 20px; align-self: center;">
+        <!-- Here is where we will be able to select files to work with temporarily -->
+        <h2>Select file from local directory:</h2>
+        <div class="container" style="display: flex; align-items: center; border-style: solid; border-radius: 5px; width: 450px; height: 60px; float: left;">
+            <input type="file" id="upload" style="display: flex; color:silver;">
+        </div>
+    </div>
+    <div class="container" style="display: flex; padding-left: 50px; padding-top: 20px; align-self: center;">
+        <h5 style="padding-right: 30px;">Or input data here:</h5>
+        <br>
+        <textarea type="text" id="manualData" style="color:white; background-color: black;" rows="5" cols="53"></textarea>
+    </div>
+    <div class="container" style="padding-top: 10px; padding-left: 50px;">
+        <br>
+        <h5>Input a NFA and/or a DFA file name for the results(Currently not working):</h5>
+        <br>
+        <input type="text" id="nfaFile" style="color:white; background-color: black; width: 300px;" placeholder="[NFA-FILENAME]">
+        <input type="text" id="dfaFile" style="color:white; background-color: black; width: 300px;" placeholder="[DFA-FILENAME]">
+        <br>
+        <h5 style="padding-top: 5px;">Input custom REGEX here:</h5>
+        <br>
+        <input type="text" id="regex" style="color:white; background-color: black; width: 300px;" placeholder="custom_regex">
+        <br>
+        <div class="container" style="padding-top: 5px; display: flex;">
+            <button class="btn btn-primary" id="callBtn" onclick="analyzeCall()" style="background-color: navy; border-color: navy;">Go!</button>
+        </div>
+    </div>
+    <div class="container" style="padding-left: 50px;">
+        <br>
+        <h5>Output:</h5>
+        <br>
+        <textarea type="text" id="shell" rows="15" cols="100" style="color:white; background-color: black;"></textarea>
+    </div>
+    <script type="text/javascript" src="scripts/nfa.js"></script>
+    <script type="text/javascript" src="scripts/regex.js"></script>
+    <script type="text/javascript" src="scripts/utils.js"></script>
+    <script type="text/javascript" src="scripts/token.js"></script>
+</body>
+</html>
